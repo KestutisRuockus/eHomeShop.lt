@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "936884777676",
+    "firebase_url": "https://ehomeshoplt.firebaseio.com",
+    "project_id": "ehomeshoplt",
+    "storage_bucket": "ehomeshoplt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936884777676:android:da313807bfb9adbf10c869",
+        "android_client_info": {
+          "package_name": "cashbacklogin.lt.belekas.ehomeshoplt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "936884777676-4f9a8591sfr50r8l9j9r9g19fhkic306.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cashbacklogin.lt.belekas.ehomeshoplt",
+            "certificate_hash": "adc4fd41ebf77bee09dcb1f25f7dc44ebc168705"
+          }
+        },
+        {
+          "client_id": "936884777676-h7s6s3kj09bmhpvtrscvls1kt5tq54jt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIPOsMJq4EVh9GpGBlvp36OIl5FnBg1Zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936884777676-h7s6s3kj09bmhpvtrscvls1kt5tq54jt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
