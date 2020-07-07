@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         // logged in successfully
-                        mekeMeOnline();
+                        makeMeOnline();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void mekeMeOnline() {
+    private void makeMeOnline() {
         // after logging in, make User online
         progressDialog.setMessage("Checking User....");
 
