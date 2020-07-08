@@ -9,19 +9,9 @@
     <!-- ToolBar -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:padding="10dp"
-        android:background="@drawable/shape_rect01">
-
-        <TextView
-            android:id="@+id/nameTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Name"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/colorWhite"/>
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rect01"
+        android:padding="10dp">
 
         <ImageButton
             android:id="@+id/logoutBtn"
@@ -35,10 +25,60 @@
             android:id="@+id/editProfileBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_toStartOf="@+id/logoutBtn"
             android:layout_toLeftOf="@id/logoutBtn"
             android:background="@null"
-            android:src="@drawable/ic_edit_white"
-            android:layout_toStartOf="@+id/logoutBtn"/>
+            android:src="@drawable/ic_edit_white" />
+
+
+        //----- ADD PRODUCT-----
+
+        <ImageButton
+            android:id="@+id/addProductBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toStartOf="@+id/editProfileBtn"
+            android:layout_toLeftOf="@id/logoutBtn"
+            android:background="@null"
+            android:src="@drawable/ic_add_shopping_white" />
+
+
+        <com.blogspot.atifsoftwares.circularimageview.CircularImageView
+            android:id="@+id/profileIv"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_store_gray"
+            app:c_border="true"
+            app:c_border_color="@color/colorWhite"/>
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/profileIv"
+            android:text="Name"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/shopNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nameTv"
+            android:layout_toEndOf="@+id/profileIv"
+            android:text="Shop Name"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/emailTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shopNameTv"
+            android:layout_toEndOf="@+id/profileIv"
+            android:text="Email"
+            android:textColor="@color/colorWhite" />
+
     </RelativeLayout>
 
 </RelativeLayout>
