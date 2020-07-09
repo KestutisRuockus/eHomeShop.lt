@@ -251,11 +251,7 @@ public class AddProductActivity extends AppCompatActivity {
 
         } else {
             // upload with image
-
-
             // first upload image to storage
-
-
             // name and path of image to be uploaded
             String filePathAndName = "product_images/" + "" + timestamp;
 
@@ -294,6 +290,7 @@ public class AddProductActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 // added to db
+                                                progressDialog.dismiss();
                                                 Toast.makeText(AddProductActivity.this, "Product added...", Toast.LENGTH_SHORT).show();
                                                 clearData();
                                             }
