@@ -1,4 +1,4 @@
-package cashbacklogin.lt.belekas.ehomeshoplt;
+package cashbacklogin.lt.belekas.ehomeshoplt.activities;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -32,6 +32,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterProductSeller;
+import cashbacklogin.lt.belekas.ehomeshoplt.Constants;
+import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelProduct;
+import cashbacklogin.lt.belekas.ehomeshoplt.R;
 
 public class MainSellerActivity extends AppCompatActivity {
 

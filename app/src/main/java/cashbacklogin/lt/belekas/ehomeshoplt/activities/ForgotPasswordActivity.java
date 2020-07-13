@@ -1,4 +1,4 @@
-package cashbacklogin.lt.belekas.ehomeshoplt;
+package cashbacklogin.lt.belekas.ehomeshoplt.activities;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+
+import cashbacklogin.lt.belekas.ehomeshoplt.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 

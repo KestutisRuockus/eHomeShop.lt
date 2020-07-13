@@ -26,11 +26,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Add Product"
+            android:text="Edit Product"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:textStyle="bold"/>
-        
+
     </RelativeLayout>
 
     <!-- Form to input data -->
@@ -152,10 +152,10 @@
             android:layout_below="@+id/discountedPriceEt"/>
 
         <Button
-            android:id="@+id/addProductBtn"
+            android:id="@+id/updateProductBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Product"
+            android:text="Update Product"
             android:layout_centerHorizontal="true"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_below="@id/discountedNoteEt"
@@ -163,5 +163,5 @@
             android:layout_marginTop="5dp"/>
 
     </RelativeLayout>
-    
+
 </LinearLayout>

@@ -4,6 +4,9 @@ import android.widget.Filter;
 
 import java.util.ArrayList;
 
+import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterProductSeller;
+import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelProduct;
+
 public class FilterProduct  extends Filter {
 
     private AdapterProductSeller adapter;

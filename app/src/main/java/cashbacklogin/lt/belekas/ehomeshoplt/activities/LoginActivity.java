@@ -1,4 +1,4 @@
-package cashbacklogin.lt.belekas.ehomeshoplt;
+package cashbacklogin.lt.belekas.ehomeshoplt.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -25,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+
+import cashbacklogin.lt.belekas.ehomeshoplt.R;
 
 public class LoginActivity extends AppCompatActivity {
 
