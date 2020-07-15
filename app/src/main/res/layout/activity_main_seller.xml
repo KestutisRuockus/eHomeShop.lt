@@ -129,7 +129,6 @@
             android:layout_margin="5sp"
             android:background="@drawable/shape_rect02"
             android:drawableStart="@drawable/ic_search_gray"
-            android:drawableEnd="@drawable/ic_filter_gray"
             android:hint="Search"
             android:layout_toStartOf="@+id/filterProductBtn"
             android:padding="10dp"

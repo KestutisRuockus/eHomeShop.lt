@@ -192,7 +192,6 @@ public class MainSellerActivity extends AppCompatActivity {
                         productList.clear();
 
                         for (DataSnapshot ds: dataSnapshot.getChildren()){
-
                             String productCategory = "" + ds.child("productCategory").getValue();
 
                             if (selected.equals(productCategory)){
@@ -221,8 +220,7 @@ public class MainSellerActivity extends AppCompatActivity {
 
         // get all products
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.child(firebaseAuth
-        .getUid()).child("Products")
+        reference.child(firebaseAuth.getUid()).child("Products")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

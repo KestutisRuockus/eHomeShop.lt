@@ -168,6 +168,7 @@ public class ProfileEditUserActivity extends AppCompatActivity implements Locati
 
     private void updateProfile() {
         progressDialog.setMessage("Updating profile...");
+        progressDialog.show();
 
         if (image_uri == null){
             //update without image
@@ -232,9 +233,10 @@ public class ProfileEditUserActivity extends AppCompatActivity implements Locati
                                 hashMap.put("address", "" + address);
                                 hashMap.put("latitude", "" + latitude);
                                 hashMap.put("longitude", "" + longitude);
+                                hashMap.put("profileImage", "" + downloadImageUri);
 
                                 // update to db
-                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User");
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
                                 ref.child(firebaseAuth.getUid()).updateChildren(hashMap)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -496,7 +498,7 @@ public class ProfileEditUserActivity extends AppCompatActivity implements Locati
 
                 if (grantResults.length > 0){
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
                     if (cameraAccepted && storageAccepted){
                         // permission allowed
@@ -511,7 +513,7 @@ public class ProfileEditUserActivity extends AppCompatActivity implements Locati
             case STORAGE_REQUEST_CODE:{
 
                 if (grantResults.length > 0){
-                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
 
                     if (storageAccepted){
                         // permission allowed

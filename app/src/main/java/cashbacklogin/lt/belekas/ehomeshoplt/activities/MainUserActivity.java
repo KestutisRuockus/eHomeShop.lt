@@ -107,28 +107,23 @@ public class MainUserActivity extends AppCompatActivity {
         });
     }
 
-    private void showShopsUI() {
-        // show shops ui, hide orders ui
-        shopsRl.setVisibility(View.VISIBLE);
-        ordersRl.setVisibility(View.GONE);
-
-        tabShopTv.setTextColor(getResources().getColor(R.color.colorBlack));
-        tabShopTv.setBackgroundResource(R.drawable.shape_rect04);
-
-        tabOrdersTv.setTextColor(getResources().getColor(R.color.colorWhite));
-        tabShopTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-    }
-
+private void showShopsUI() {
+    //show shop ui, hide orders ui
+    shopsRl.setVisibility(View.VISIBLE);
+    ordersRl.setVisibility(View.GONE);
+    tabShopTv.setTextColor(getResources().getColor(R.color.colorBlack));
+    tabShopTv.setBackgroundResource(R.drawable.shape_rect04);
+    tabOrdersTv.setTextColor(getResources().getColor(R.color.colorWhite));
+    tabOrdersTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+}
     private void showOrdersUI() {
-        // show orders ui, hide shops ui
+        //show orders ui, hide shops ui
         shopsRl.setVisibility(View.GONE);
         ordersRl.setVisibility(View.VISIBLE);
-
-        tabOrdersTv.setTextColor(getResources().getColor(R.color.colorWhite));
-        tabOrdersTv.setBackgroundResource(R.drawable.shape_rect04);
-
-        tabShopTv.setTextColor(getResources().getColor(R.color.colorBlack));
+        tabShopTv.setTextColor(getResources().getColor(R.color.colorWhite));
         tabShopTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        tabOrdersTv.setTextColor(getResources().getColor(R.color.colorBlack));
+        tabOrdersTv.setBackgroundResource(R.drawable.shape_rect04);
     }
 
     private void makeMeOffline() {
