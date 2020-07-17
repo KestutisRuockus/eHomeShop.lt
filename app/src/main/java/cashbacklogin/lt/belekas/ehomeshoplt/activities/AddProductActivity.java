@@ -224,7 +224,7 @@ public class AddProductActivity extends AppCompatActivity {
             hashMap.put("productQuantity", "" + productQuantity);
             hashMap.put("productIcon", ""); // no image set empty
             hashMap.put("originalPrice", "" + originalPrice);
-            hashMap.put("discountPrice", "" + discountPrice + "%");
+            hashMap.put("discountPrice", "" + discountPrice);  ///     hashMap.put("discountPrice", "" + discountPrice + "%");    nutryniau procentus
             hashMap.put("discountNote", "" + discountNote);
             hashMap.put("discountAvailable", "" + discountAvailable);
             hashMap.put("timestamp", "" + timestamp);
