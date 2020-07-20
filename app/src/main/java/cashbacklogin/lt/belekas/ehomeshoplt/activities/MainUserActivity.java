@@ -29,7 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cashbacklogin.lt.belekas.ehomeshoplt.R;
+import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterOrderUser;
 import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterShop;
+import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelOrderUser;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelShop;
 
 public class MainUserActivity extends AppCompatActivity {
@@ -38,13 +40,16 @@ public class MainUserActivity extends AppCompatActivity {
     private ImageButton logoutBtn, editProfileBtn;
     private ImageView profileIv;
     private RelativeLayout shopsRl, ordersRl;
-    private RecyclerView shopsRv;
+    private RecyclerView shopsRv, orderRv;
 
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
 
     private ArrayList<ModelShop> shopsList;
     private AdapterShop adapterShop;
+
+    private ArrayList<ModelOrderUser> ordersList;
+    private AdapterOrderUser adapterOrderUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class MainUserActivity extends AppCompatActivity {
         shopsRl = findViewById(R.id.shopsRl);
         ordersRl = findViewById(R.id.ordersRl);
         shopsRv = findViewById(R.id.shopsRv);
+        orderRv = findViewById(R.id.orderRv);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -107,15 +113,15 @@ public class MainUserActivity extends AppCompatActivity {
         });
     }
 
-private void showShopsUI() {
-    //show shop ui, hide orders ui
-    shopsRl.setVisibility(View.VISIBLE);
-    ordersRl.setVisibility(View.GONE);
-    tabShopTv.setTextColor(getResources().getColor(R.color.colorBlack));
-    tabShopTv.setBackgroundResource(R.drawable.shape_rect04);
-    tabOrdersTv.setTextColor(getResources().getColor(R.color.colorWhite));
-    tabOrdersTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-}
+    private void showShopsUI() {
+        //show shop ui, hide orders ui
+        shopsRl.setVisibility(View.VISIBLE);
+        ordersRl.setVisibility(View.GONE);
+        tabShopTv.setTextColor(getResources().getColor(R.color.colorBlack));
+        tabShopTv.setBackgroundResource(R.drawable.shape_rect04);
+        tabOrdersTv.setTextColor(getResources().getColor(R.color.colorWhite));
+        tabOrdersTv.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+    }
     private void showOrdersUI() {
         //show orders ui, hide shops ui
         shopsRl.setVisibility(View.GONE);
@@ -193,7 +199,7 @@ private void showShopsUI() {
 
                             // load only  those that are in the city of user
                             loadShops(city);
-
+                            loadOrders();
                         }
                     }
 
@@ -202,6 +208,55 @@ private void showShopsUI() {
 
                     }
                 });
+    }
+
+    private void loadOrders() {
+        // init order list
+        ordersList = new ArrayList<>();
+
+        // get data
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                ordersList.clear();
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    String uid = "" + ds.getRef().getKey();
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("Orders");
+                    ref.orderByChild("orderBy").equalTo(firebaseAuth.getUid())
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()){
+                                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                                            ModelOrderUser modelOrderUser = ds.getValue(ModelOrderUser.class);
+
+                                            // add to list
+                                            ordersList.add(modelOrderUser);
+                                        }
+                                        // setup adapter
+                                        adapterOrderUser = new AdapterOrderUser(MainUserActivity.this, ordersList);
+
+                                        // set to recyclerview
+                                        orderRv.setAdapter(adapterOrderUser);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void loadShops(final String myCity) {
