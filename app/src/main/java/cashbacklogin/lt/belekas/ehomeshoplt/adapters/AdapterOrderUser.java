@@ -1,6 +1,7 @@
 package cashbacklogin.lt.belekas.ehomeshoplt.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import cashbacklogin.lt.belekas.ehomeshoplt.R;
+import cashbacklogin.lt.belekas.ehomeshoplt.activities.OrderDetailsUsersActivity;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelOrderUser;
 
 public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.HolderOrderUser>{
@@ -45,12 +47,12 @@ public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.Hold
     public void onBindViewHolder(@NonNull HolderOrderUser holder, int position) {
         // get data
         ModelOrderUser modelOrderUser = orderUserList.get(position);
-        String orderId = modelOrderUser.getOrderId();
+        final String orderId = modelOrderUser.getOrderId();
         String orderBy = modelOrderUser.getOrderBy();
         String orderCost = modelOrderUser.getOrderCost();
         String orderStatus = modelOrderUser.getOrderStatus();
         String orderTime = modelOrderUser.getOrderTime();
-        String orderTo = modelOrderUser.getOrderTo();
+        final String orderTo = modelOrderUser.getOrderTo();
 
         // get shop info
         loadShopInfo(modelOrderUser, holder);
@@ -77,6 +79,17 @@ public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.Hold
         String formatedDate = DateFormat.format("dd/MM/yyyy", calendar).toString(); // 16/06/2020
 
         holder.dateTv.setText(formatedDate);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // open order details, we need to keys there, orderId, orderTo
+                Intent intent = new Intent(context, OrderDetailsUsersActivity.class);
+                intent.putExtra("orderTo", orderTo);
+                intent.putExtra("orderId", orderId);
+                context.startActivity(intent);
+            }
+        });
     }
 
     private void loadShopInfo(ModelOrderUser modelOrderUser, final HolderOrderUser holder) {

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import cashbacklogin.lt.belekas.ehomeshoplt.FilterProductUser;
 import cashbacklogin.lt.belekas.ehomeshoplt.R;
+import cashbacklogin.lt.belekas.ehomeshoplt.activities.ShopDetailsActivity;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelProduct;
 import p32929.androideasysql_library.Column;
 import p32929.androideasysql_library.EasyDB;
@@ -239,6 +240,9 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
                 .doneDataAdding();
 
         Toast.makeText(context, "Added to cart....", Toast.LENGTH_SHORT).show();
+
+        // update cart count
+        ((ShopDetailsActivity)context).cartCount();
     }
 
     @Override

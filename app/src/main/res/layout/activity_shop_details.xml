@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activities.ShopDetailsActivity">
 
+    
     <!--  Shop Details  -->
     <RelativeLayout
         android:id="@+id/shopRl"
@@ -27,7 +28,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="48dp"
             android:padding="10dp">
 
             <TextView
@@ -130,7 +131,8 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:background="@null"
-            android:src="@drawable/ic_cart_gray" />
+            android:src="@drawable/ic_cart_gray"
+            android:layout_marginTop="8dp"/>
 
         <ImageButton
             android:id="@+id/backBtn"
@@ -147,6 +149,18 @@
             android:textColor="@color/colorWhite"
             android:textSize="20sp" />
 
+    <!--     car item count badge   -->
+        <TextView
+            android:id="@+id/cartCountTv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:textColor="@color/colorWhite"
+            android:text="10"
+            android:textSize="8sp"
+            android:background="@drawable/shape_circle03"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"/>
+        
     </RelativeLayout>
 
     <!--  Products  -->
