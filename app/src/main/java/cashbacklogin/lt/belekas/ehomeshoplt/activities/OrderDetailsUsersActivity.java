@@ -31,7 +31,7 @@ import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelOrderedItem;
 
 public class OrderDetailsUsersActivity extends AppCompatActivity {
 
-    private ImageButton backBtn;
+    private ImageButton backBtn, writeReviewBtn;
     private TextView orderedIdTv, dateTv, orderStatusTv, shopNameTv, totalItemsTv, amountTv, addressTv;
     private RecyclerView itemsRv;
 
@@ -56,6 +56,7 @@ public class OrderDetailsUsersActivity extends AppCompatActivity {
         amountTv = findViewById(R.id.amountTv);
         addressTv = findViewById(R.id.addressTv);
         itemsRv = findViewById(R.id.itemsRv);
+        writeReviewBtn = findViewById(R.id.writeReviewBtn);
 
         Intent intent = getIntent();
         orderTo = intent.getStringExtra("orderTo"); // orderTo contains uid of the shops where we placed orders
@@ -70,6 +71,16 @@ public class OrderDetailsUsersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        // handle writeReviewBtn click, start write review activity
+        writeReviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(OrderDetailsUsersActivity.this, WriteReviewActivity.class);
+                intent1.putExtra("shopUid", orderTo); // to write review to a shop we must have uid of shop
+                startActivity(intent1);
             }
         });
 
