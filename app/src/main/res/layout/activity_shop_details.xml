@@ -79,6 +79,19 @@
                 android:text="Delivery Fee"
                 android:textColor="@color/colorWhite" />
 
+    <!--      RatingBar: show avg rating     -->
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_below="@id/deliveryFeeTv"
+                android:layout_alignParentEnd="true"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/colorGray00"
+                android:progressTint="@color/colorWhite"/>
+
+
             <TextView
                 android:id="@+id/addressTv"
                 android:layout_width="wrap_content"
@@ -160,6 +173,18 @@
             android:background="@drawable/shape_circle03"
             android:gravity="center"
             android:layout_alignParentEnd="true"/>
+
+    <!--     show shop reviews   -->
+
+        <ImageButton
+            android:id="@+id/reviewsBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toStartOf="@id/cartBtn"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_star_white"
+            android:layout_marginTop="8dp"/>
         
     </RelativeLayout>
 

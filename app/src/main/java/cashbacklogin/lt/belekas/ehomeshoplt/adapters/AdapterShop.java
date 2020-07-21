@@ -12,6 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -61,6 +66,8 @@ public class AdapterShop extends RecyclerView.Adapter<AdapterShop.HolderShop>{
         String state = modelShop.getState();
         String profileImage = modelShop.getProfileImage();
 
+        loadReviews(modelShop, holder);
+
         // set data
         holder.shopNameTv.setText(shopName);
         holder.phoneTv.setText(phone);
@@ -103,6 +110,34 @@ public class AdapterShop extends RecyclerView.Adapter<AdapterShop.HolderShop>{
             }
         });
 
+    }
+
+    private float ratingSum = 0;
+    private void loadReviews(ModelShop modelShop, final HolderShop holder) {
+
+        String shopUid = modelShop.getUid();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).child("Ratings")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ratingSum = 0;
+                        for (DataSnapshot ds: snapshot.getChildren()){
+                            float rating = Float.parseFloat("" + ds.child("ratings").getValue()); // e.g. 1.3
+                            ratingSum = ratingSum + rating; // for avg rating, add (addition of) all ratings, later will divide it by number of reviews
+                        }
+
+                        long numberOfReviews = snapshot.getChildrenCount();
+                        float avgRating = ratingSum / numberOfReviews;
+                        holder.ratingBar.setRating(avgRating);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     @Override

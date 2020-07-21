@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +51,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private ImageView shopIv;
     private TextView shopNameTv, phoneTv, emailTv, openCloseTv, deliveryFeeTv, addressTv,
             filteredProductsTv, cartCountTv;
-    private ImageButton callBtn, mapBtn, cartBtn, backBtn, filterProductBtn;
+    private ImageButton callBtn, mapBtn, cartBtn, backBtn, filterProductBtn, reviewsBtn;
     private EditText searchProductsEt;
     private RecyclerView productsRv;
 
@@ -58,6 +59,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private String myLatitude, myLongitude, myPhone;
     private String shopName, shopEmail, shopAddress, shopPhone, shopLatitude, shopLongitude;
     public String deliveryFee;
+    private RatingBar ratingBar;;
 
     private FirebaseAuth firebaseAuth;
 
@@ -96,6 +98,8 @@ public class ShopDetailsActivity extends AppCompatActivity {
         filteredProductsTv = findViewById(R.id.filteredProductsTv);
         productsRv = findViewById(R.id.productsRv);
         cartCountTv = findViewById(R.id.cartCountTv);
+        reviewsBtn = findViewById(R.id.reviewsBtn);
+        ratingBar = findViewById(R.id.ratingBar);
 
         // init progress dialog
         progressDialog = new ProgressDialog(this);
@@ -108,6 +112,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
         loadMyInfo();
         loadShopDetails();
         loadShopProducts();
+        loadReviews(); // avg rating, set on rating bar
 
         // declare ot to class level and init in onCreate
         easyDB = EasyDB.init(this, "ITEM_DB")
@@ -203,6 +208,43 @@ public class ShopDetailsActivity extends AppCompatActivity {
                         .show();
             }
         });
+
+        // handle reviewsBtn click, open reviews activity
+        reviewsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // pass shop uid to show its reviews
+                Intent intent = new Intent(ShopDetailsActivity.this, ShopReviewsActivity.class);
+                intent.putExtra("shopUid", shopUid);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private float ratingSum = 0;
+    private void loadReviews() {
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(shopUid).child("Ratings")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ratingSum = 0;
+                        for (DataSnapshot ds: snapshot.getChildren()){
+                            float rating = Float.parseFloat("" + ds.child("ratings").getValue()); // e.g. 1.3
+                            ratingSum = ratingSum + rating; // for avg rating, add (addition of) all ratings, later will divide it by number of reviews
+                        }
+
+                        long numberOfReviews = snapshot.getChildrenCount();
+                        float avgRating = ratingSum / numberOfReviews;
+                        ratingBar.setRating(avgRating);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void deleteCartData() {
