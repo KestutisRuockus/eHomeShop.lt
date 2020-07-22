@@ -116,6 +116,7 @@
 
     <!--Products-->
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/productsRl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -176,7 +177,41 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbarRl">
 
-    </RelativeLayout>
+        <!-- Search/Filter   -->
+        <TextView
+            android:id="@+id/filteredOrdersTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_rect02"
+            android:padding="10dp"
+            android:layout_toStartOf="@id/filteredOrdersBtn"
+            android:text="Showing All Orders"/>
 
+        <!--   Filter orders -->
+        <ImageButton
+            android:id="@+id/filteredOrdersBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_filter_gray"/>
+
+    <!--    Show orders    -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ordersRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_below="@id/filteredOrdersTv"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
+            tools:listitem="@layout/row_order_seller "/>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

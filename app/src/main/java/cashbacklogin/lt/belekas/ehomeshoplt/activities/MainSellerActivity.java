@@ -33,25 +33,31 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterOrderShop;
 import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterProductSeller;
 import cashbacklogin.lt.belekas.ehomeshoplt.Constants;
+import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelOrderShop;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelProduct;
 import cashbacklogin.lt.belekas.ehomeshoplt.R;
 
 public class MainSellerActivity extends AppCompatActivity {
 
-    private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn;
+    private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv,
+            filteredOrdersTv;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filteredOrdersBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
     private EditText searchProductEt;
-    private RecyclerView productsRv;
+    private RecyclerView productsRv, ordersRv;
 
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
 
     private ArrayList<ModelProduct> productList;
     private AdapterProductSeller adapterProductSeller;
+
+    private ArrayList<ModelOrderShop> orderShopArrayList;
+    private AdapterOrderShop adapterOrderShop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,9 @@ public class MainSellerActivity extends AppCompatActivity {
         filterProductBtn = findViewById(R.id.filterProductBtn);
         filteredProductsTv = findViewById(R.id.filteredProductsTv);
         productsRv = findViewById(R.id.productsRv);
+        filteredOrdersTv = findViewById(R.id.filteredOrdersTv);
+        filteredOrdersBtn = findViewById(R.id.filteredOrdersBtn);
+        ordersRv = findViewById(R.id.ordersRv);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -80,6 +89,7 @@ public class MainSellerActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         checkUser();
         loadAllProducts();
+        loadAllOrders();
 
         showProductsUI();
 
@@ -175,6 +185,68 @@ public class MainSellerActivity extends AppCompatActivity {
                 .show();
             }
         });
+
+        filteredOrdersBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // options to display in dialog
+                final String[] options = {"All", "In Progress", "Completed", "Cancelled"};
+                // dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainSellerActivity.this);
+                builder.setTitle("Filter Orders:")
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // handle item clicks
+                                if (which == 0){
+                                    // All clicked
+                                    filteredOrdersTv.setText("Show All Orders");
+                                    adapterOrderShop.getFilter().filter(""); // show all orders
+                                }
+                                else {
+                                    String optionsClicked = options[which];
+                                    filteredOrdersTv.setText("Showing " + optionsClicked + " Orders"); // e.g. Showing Completed
+                                    adapterOrderShop.getFilter().filter(optionsClicked);
+                                }
+                            }
+                        })
+                        .show();
+            }
+        });
+    }
+
+
+    private void loadAllOrders() {
+        // init arraylist
+        orderShopArrayList = new ArrayList<>();
+
+        // load orders of shop
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).child("Orders")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        // clear list before adding new data in it
+                        orderShopArrayList.clear();
+                        for (DataSnapshot ds: snapshot.getChildren()){
+                            ModelOrderShop modelOrderShop = ds.getValue(ModelOrderShop.class);
+
+                            // add to list
+                            orderShopArrayList.add(modelOrderShop);
+                        }
+
+                        // setup adapter
+                        adapterOrderShop = new AdapterOrderShop(MainSellerActivity.this, orderShopArrayList);
+
+                        // set adapter to recyclerView
+                        ordersRv.setAdapter(adapterOrderShop);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void loadFilteredProducts(final String selected) {
