@@ -1,6 +1,7 @@
 package cashbacklogin.lt.belekas.ehomeshoplt.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 
 import cashbacklogin.lt.belekas.ehomeshoplt.FilterOrderShop;
 import cashbacklogin.lt.belekas.ehomeshoplt.R;
+import cashbacklogin.lt.belekas.ehomeshoplt.activities.OrderDetailsSellerActivity;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelOrderShop;
 
 public class AdapterOrderShop extends RecyclerView.Adapter<AdapterOrderShop.HolderOrderShop> implements Filterable {
@@ -50,8 +52,8 @@ public class AdapterOrderShop extends RecyclerView.Adapter<AdapterOrderShop.Hold
     public void onBindViewHolder(@NonNull HolderOrderShop holder, int position) {
         // get data at position
         ModelOrderShop modelOrderShop = orderShopArrayList.get(position);
-        String orderId = modelOrderShop.getOrderId();
-        String orderBy = modelOrderShop.getOrderBy();
+        final String orderId = modelOrderShop.getOrderId();
+        final String orderBy = modelOrderShop.getOrderBy();
         String orderCost = modelOrderShop.getOrderCost();
         String orderStatus = modelOrderShop.getOrderStatus();
         String orderTime = modelOrderShop.getOrderTime();
@@ -87,6 +89,10 @@ public class AdapterOrderShop extends RecyclerView.Adapter<AdapterOrderShop.Hold
             @Override
             public void onClick(View v) {
                 // open order details
+                Intent intent = new Intent(context, OrderDetailsSellerActivity.class);
+                intent.putExtra("orderId", orderId); // to load order info
+                intent.putExtra("orderBy", orderBy); // to load info of the user/buyer who placed order
+                context.startActivity(intent);
             }
         });
 
@@ -136,7 +142,7 @@ public class AdapterOrderShop extends RecyclerView.Adapter<AdapterOrderShop.Hold
 
             // init ui views
             orderIdTv = itemView.findViewById(R.id.orderIdTv);
-            orderDateTv = itemView.findViewById(R.id.orderIdTv);
+            orderDateTv = itemView.findViewById(R.id.orderDateTv);
             emailTv = itemView.findViewById(R.id.emailTv);
             amountTv = itemView.findViewById(R.id.amountTv);
             statusTv = itemView.findViewById(R.id.statusTv);

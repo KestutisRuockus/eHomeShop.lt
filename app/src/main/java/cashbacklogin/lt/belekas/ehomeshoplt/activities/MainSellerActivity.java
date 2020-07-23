@@ -44,7 +44,7 @@ public class MainSellerActivity extends AppCompatActivity {
 
     private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv,
             filteredOrdersTv;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filteredOrdersBtn;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filteredOrdersBtn, reviewsBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
     private EditText searchProductEt;
@@ -74,6 +74,7 @@ public class MainSellerActivity extends AppCompatActivity {
         tabProductsTv = findViewById(R.id.tabProductsTv);
         tabOrdersTv = findViewById(R.id.tabOrdersTv);
         productsRl = findViewById(R.id.productsRl);
+        reviewsBtn = findViewById(R.id.reviewsBtn);
         ordersRl = findViewById(R.id.ordersRl);
         searchProductEt = findViewById(R.id.searchProductEt);
         filterProductBtn = findViewById(R.id.filterProductBtn);
@@ -213,6 +214,16 @@ public class MainSellerActivity extends AppCompatActivity {
                         .show();
             }
         });
+
+        reviewsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // open same reviews activity as used in user main page
+                Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
+                intent.putExtra("shopUid", "" + firebaseAuth.getUid());
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -254,8 +265,7 @@ public class MainSellerActivity extends AppCompatActivity {
 
         // get all products
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.child(firebaseAuth
-                .getUid()).child("Products")
+        reference.child(firebaseAuth.getUid()).child("Products")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

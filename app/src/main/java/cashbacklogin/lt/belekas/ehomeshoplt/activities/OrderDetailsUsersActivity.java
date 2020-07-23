@@ -136,7 +136,8 @@ public class OrderDetailsUsersActivity extends AppCompatActivity {
                         String orderStatus = "" + dataSnapshot.child("orderStatus").getValue();
                         String orderTime = "" + dataSnapshot.child("orderTime").getValue();
                         String orderTo = "" + dataSnapshot.child("orderTo").getValue();
-                        String deliveryFee = "" + dataSnapshot.child("deliveryFee").getValue();         String latitude = "" + dataSnapshot.child("latitude").getValue();
+                        String deliveryFee = "" + dataSnapshot.child("deliveryFee").getValue();
+                        String latitude = "" + dataSnapshot.child("latitude").getValue();
                         String longitude = "" + dataSnapshot.child("longitude").getValue();
 
                         // convert timestamp to proper format
