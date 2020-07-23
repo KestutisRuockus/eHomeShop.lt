@@ -44,7 +44,7 @@ public class MainSellerActivity extends AppCompatActivity {
 
     private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv,
             filteredOrdersTv;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filteredOrdersBtn, reviewsBtn;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filteredOrdersBtn, reviewsBtn, settingsBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
     private EditText searchProductEt;
@@ -83,6 +83,7 @@ public class MainSellerActivity extends AppCompatActivity {
         filteredOrdersTv = findViewById(R.id.filteredOrdersTv);
         filteredOrdersBtn = findViewById(R.id.filteredOrdersBtn);
         ordersRv = findViewById(R.id.ordersRv);
+        settingsBtn = findViewById(R.id.settingsBtn);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -222,6 +223,13 @@ public class MainSellerActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
                 intent.putExtra("shopUid", "" + firebaseAuth.getUid());
                 startActivity(intent);
+            }
+        });
+
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
             }
         });
     }

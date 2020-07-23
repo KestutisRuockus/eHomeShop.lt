@@ -121,7 +121,7 @@
             android:background="@color/colorPrimary"
             android:padding="15dp"
             android:text="Confirm Order"
-            android:textColor="@color/colorWhite"/>
+            android:textColor="@color/colorWhite" />
 
 
     </LinearLayout>

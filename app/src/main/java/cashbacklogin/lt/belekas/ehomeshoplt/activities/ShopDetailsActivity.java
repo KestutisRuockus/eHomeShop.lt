@@ -375,6 +375,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
     private void submitOrder() {
         // show progress dialog
         progressDialog.setMessage("Placing order...");
+        progressDialog.show();
 
         // for order id and order time
         final String timestamp = "" + System.currentTimeMillis();
@@ -411,11 +412,11 @@ public class ShopDetailsActivity extends AppCompatActivity {
                             String name = cartItemList.get(i).getName();
 
                             HashMap<String, Object> hashMap1 = new HashMap<>();
-                            hashMap.put("pId", pId);
-                            hashMap.put("name", name);
-                            hashMap.put("cost", cost);
-                            hashMap.put("price", price);
-                            hashMap.put("quantity", quantity);
+                            hashMap1.put("pId", pId);
+                            hashMap1.put("name", name);
+                            hashMap1.put("cost", cost);
+                            hashMap1.put("price", price);
+                            hashMap1.put("quantity", quantity);
 
                             ref.child(timestamp).child("Items").child(pId).setValue(hashMap1);
                         }
