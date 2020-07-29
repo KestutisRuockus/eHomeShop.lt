@@ -94,7 +94,7 @@ public class AddPromotionCodeActivity extends AppCompatActivity {
 
                 DecimalFormat mFromat = new DecimalFormat("00");
                 String pDay = mFromat.format(dayOfMonth);
-                String pMonth = mFromat.format(monthOfYear);
+                String pMonth = mFromat.format(monthOfYear + 1);
                 String pYear = "" + year;
                 String pDate = pDay + "/" + pMonth + "/" + pYear; // e.g. 22/05/2020
 
