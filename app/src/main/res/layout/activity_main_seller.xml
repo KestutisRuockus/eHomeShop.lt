@@ -14,13 +14,22 @@
         android:background="@drawable/shape_rect01"
         android:padding="10dp">
 
+    <!--     More buttons   -->
         <ImageButton
-            android:id="@+id/logoutBtn"
+            android:id="@+id/moreBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:background="@null"
-            android:src="@drawable/ic_logout_white" />
+            android:src="@drawable/ic_more_white"/>
+
+        <ImageButton
+            android:id="@+id/logoutBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@null"
+            android:src="@drawable/ic_logout_white"
+            android:layout_toStartOf="@id/moreBtn"/>
 
         <ImageButton
             android:id="@+id/editProfileBtn"
@@ -44,22 +53,8 @@
             android:src="@drawable/ic_add_shopping_white" />
 
     <!--    Reviews: shop reviews    -->
-        <ImageButton
-            android:id="@+id/reviewsBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_star_white"
-            android:layout_toStartOf="@id/addProductBtn"
-            android:background="@null"/>
 
-    <!--    Settings button    -->
-        <ImageButton
-            android:id="@+id/settingsBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@null"
-            android:src="@drawable/ic_settings_white"
-            android:layout_toStartOf="@+id/reviewsBtn"/>
+        <!--    Settings button    -->
 
         <com.blogspot.atifsoftwares.circularimageview.CircularImageView
             android:id="@+id/profileIv"

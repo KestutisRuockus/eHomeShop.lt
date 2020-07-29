@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +46,7 @@ public class MainSellerActivity extends AppCompatActivity {
 
     private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv,
             filteredOrdersTv;
-    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filteredOrdersBtn, reviewsBtn, settingsBtn;
+    private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filteredOrdersBtn, moreBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
     private EditText searchProductEt;
@@ -74,7 +76,6 @@ public class MainSellerActivity extends AppCompatActivity {
         tabProductsTv = findViewById(R.id.tabProductsTv);
         tabOrdersTv = findViewById(R.id.tabOrdersTv);
         productsRl = findViewById(R.id.productsRl);
-        reviewsBtn = findViewById(R.id.reviewsBtn);
         ordersRl = findViewById(R.id.ordersRl);
         searchProductEt = findViewById(R.id.searchProductEt);
         filterProductBtn = findViewById(R.id.filterProductBtn);
@@ -83,7 +84,7 @@ public class MainSellerActivity extends AppCompatActivity {
         filteredOrdersTv = findViewById(R.id.filteredOrdersTv);
         filteredOrdersBtn = findViewById(R.id.filteredOrdersBtn);
         ordersRv = findViewById(R.id.ordersRv);
-        settingsBtn = findViewById(R.id.settingsBtn);
+        moreBtn = findViewById(R.id.moreBtn);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -216,20 +217,44 @@ public class MainSellerActivity extends AppCompatActivity {
             }
         });
 
-        reviewsBtn.setOnClickListener(new View.OnClickListener() {
+        // pop menu
+        final PopupMenu popupMenu = new PopupMenu(MainSellerActivity.this, moreBtn);
+
+        // add menu items to our menu
+        popupMenu.getMenu().add("Settings");
+        popupMenu.getMenu().add("Reviews");
+        popupMenu.getMenu().add("Promotion Codes");
+
+        // handle menu item click
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                // open same reviews activity as used in user main page
-                Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
-                intent.putExtra("shopUid", "" + firebaseAuth.getUid());
-                startActivity(intent);
+            public boolean onMenuItemClick(MenuItem item) {
+
+                if (item.getTitle() == "Settings"){
+                    // start settings screen
+                    startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
+                }
+                else if (item.getTitle() == "Reviews"){
+                    // open same reviews activity as used in user main page
+                    Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
+                    intent.putExtra("shopUid", "" + firebaseAuth.getUid());
+                    startActivity(intent);
+                }
+                else if (item.getTitle() == "Promotion Codes"){
+                    // start promotions list screen
+                    startActivity(new Intent(MainSellerActivity.this, PromotionCodesActivity.class));
+                }
+
+                return true;
             }
         });
 
-        settingsBtn.setOnClickListener(new View.OnClickListener() {
+        // show more options:Settings, Review, Promotion Codes
+        moreBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
+                // show popup menu
+                popupMenu.show();
             }
         });
     }
