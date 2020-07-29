@@ -1,28 +1,48 @@
 package cashbacklogin.lt.belekas.ehomeshoplt.adapters;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 import cashbacklogin.lt.belekas.ehomeshoplt.R;
+import cashbacklogin.lt.belekas.ehomeshoplt.activities.AddPromotionCodeActivity;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelPromotion;
 
 public class AdapterPromotionShop  extends RecyclerView.Adapter<AdapterPromotionShop.HolderPromotionShop> {
 
     private Context context;
     private ArrayList<ModelPromotion> promotionArrayList;
+    private ProgressDialog progressDialog;
+    private FirebaseAuth firebaseAuth;
 
     public AdapterPromotionShop(Context context, ArrayList<ModelPromotion> promotionArrayList) {
         this.context = context;
         this.promotionArrayList = promotionArrayList;
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Please wait...");
+        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     @NonNull
@@ -33,9 +53,9 @@ public class AdapterPromotionShop  extends RecyclerView.Adapter<AdapterPromotion
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HolderPromotionShop holder, int position) {
+    public void onBindViewHolder(@NonNull final HolderPromotionShop holder, int position) {
         // get data
-        ModelPromotion modelPromotion = promotionArrayList.get(position);
+        final ModelPromotion modelPromotion = promotionArrayList.get(position);
         String id = modelPromotion.getId();
         String timestamp = modelPromotion.getTimestamp();
         String description = modelPromotion.getDescription();
@@ -50,6 +70,72 @@ public class AdapterPromotionShop  extends RecyclerView.Adapter<AdapterPromotion
         holder.minimumOrderPriceTv.setText(minimumOrderPrice);
         holder.promoCodeTv.setText("Code: " + promoCode );
         holder.expireDateTv.setText("Expire Date: " + expireDate );
+
+
+        // handle click, show/edit/delete dialog
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editDeleteDialog(modelPromotion, holder);
+            }
+        });
+    }
+
+    private void editDeleteDialog(final ModelPromotion modelPromotion, HolderPromotionShop holder) {
+        // options to display in dialog
+        String[] options = {"Edit", "Delete"};
+
+        // dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Choose Option")
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // handle clicks
+                        if (which == 0 ){
+                            // edit clicked
+                            editPromoCode(modelPromotion);
+                        }
+                        else if (which == 1){
+                            // delete clicked
+                            deletePromoCode(modelPromotion);
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private void deletePromoCode(ModelPromotion modelPromotion) {
+        // show progress Bar
+        progressDialog.setMessage("Deleting Promotion Code...");
+        progressDialog.show();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.child(firebaseAuth.getUid()).child("Promotions").child(modelPromotion.getId())
+                .removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // deleted
+                        progressDialog.dismiss();
+                        Toast.makeText(context, "Deleted...", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // failed deleting
+                        progressDialog.dismiss();
+                        Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void editPromoCode(ModelPromotion modelPromotion) {
+        // start and pass data to  AddPromotionCodeActivity to edit
+        Intent intent = new Intent(context, AddPromotionCodeActivity.class);
+        intent.putExtra("promoId", modelPromotion.getId()); // will use id to update promo code
+        context.startActivity(intent);
     }
 
     @Override
