@@ -18,11 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,17 +40,17 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cashbacklogin.lt.belekas.ehomeshoplt.Constants;
+import cashbacklogin.lt.belekas.ehomeshoplt.R;
 import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterOrderShop;
 import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterProductSeller;
-import cashbacklogin.lt.belekas.ehomeshoplt.Constants;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelOrderShop;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelProduct;
-import cashbacklogin.lt.belekas.ehomeshoplt.R;
 
-public class MainSellerActivity extends AppCompatActivity {
+public class MainSellerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView nameTv, shopNameTv, emailTv, tabProductsTv, tabOrdersTv, filteredProductsTv,
-            filteredOrdersTv;
+            filteredOrdersTv, navNameTv, navShopNameTv, navEmailTv;
     private ImageButton logoutBtn, editProfileBtn, addProductBtn, filterProductBtn, filteredOrdersBtn, moreBtn;
     private ImageView profileIv;
     private RelativeLayout productsRl, ordersRl;
@@ -60,6 +65,11 @@ public class MainSellerActivity extends AppCompatActivity {
 
     private ArrayList<ModelOrderShop> orderShopArrayList;
     private AdapterOrderShop adapterOrderShop;
+
+    private Toolbar drawe_toolbaar;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mToggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +92,27 @@ public class MainSellerActivity extends AppCompatActivity {
         filteredProductsTv = findViewById(R.id.filteredProductsTv);
         productsRv = findViewById(R.id.productsRv);
         filteredOrdersTv = findViewById(R.id.filteredOrdersTv);
-        filteredOrdersBtn = findViewById(R.id.filteredOrdersBtn);
+        filteredOrdersBtn = findViewById(R.id.filterOrderBtn);
         ordersRv = findViewById(R.id.ordersRv);
-        moreBtn = findViewById(R.id.moreBtn);
+        //moreBtn = findViewById(R.id.more);
+
+        // nav bar
+        drawe_toolbaar = findViewById(R.id.drawe_toolbaar);
+        navNameTv = findViewById(R.id.navNameTv);
+        navShopNameTv = findViewById(R.id.navShopNameTv);
+        navEmailTv = findViewById(R.id.navEmailTv);
+
+        /*Set support action bar*/
+        setSupportActionBar(drawe_toolbaar);
+        /*Navigation drawer */
+        drawerLayout = findViewById(R.id.drawer_activity_seller);
+        navigationView = findViewById(R.id.nav_view);
+
+        navigationView.bringToFront();
+        mToggle = new ActionBarDrawerToggle(this, drawerLayout, drawe_toolbaar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -119,33 +147,33 @@ public class MainSellerActivity extends AppCompatActivity {
             }
         });
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // make offline
-                // sign out
-                // go to login activity
-                makeMeOffline();
-
-            }
-        });
-
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // open edit profile activity
-                startActivity(new Intent(MainSellerActivity.this, ProfileEditSellerActivity.class));
-            }
-        });
-
-        addProductBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // open edit add product activity
-                startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
-
-            }
-        });
+//        logoutBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // make offline
+//                // sign out
+//                // go to login activity
+//                makeMeOffline();
+//
+//            }
+//        });
+//
+//        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // open edit profile activity
+//                startActivity(new Intent(MainSellerActivity.this, ProfileEditSellerActivity.class));
+//            }
+//        });
+//
+//        addProductBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // open edit add product activity
+//                startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
+//
+//            }
+//        });
 
         tabProductsTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,14 +278,16 @@ public class MainSellerActivity extends AppCompatActivity {
         });
 
         // show more options:Settings, Review, Promotion Codes
-        moreBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // show popup menu
-                popupMenu.show();
-            }
-        });
+//        moreBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // show popup menu
+//                popupMenu.show();
+//            }
+//        });
     }
+
+
 
 
     private void loadAllOrders() {
@@ -444,8 +474,17 @@ public class MainSellerActivity extends AppCompatActivity {
                             shopNameTv.setText(shopName);
                             emailTv.setText(email);
 
+                            View headerView = navigationView.getHeaderView(0);
+                            TextView navName = (TextView) headerView.findViewById(R.id.navNameTv);
+                            navName.setText(name);
+                            TextView navShopName = (TextView) headerView.findViewById(R.id.navShopNameTv);
+                            navShopName.setText(shopName);
+                            TextView navEmail = (TextView) headerView.findViewById(R.id.navEmailTv);
+                            navEmail.setText(email);
+                            ImageView navProfileImage = headerView.findViewById(R.id.navProfileIv);
+
                             try {
-                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_gray).into(profileIv);
+                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_gray).into(navProfileImage);
                             }
                             catch (Exception e){
                                 profileIv.setImageResource(R.drawable.ic_store_gray);
@@ -458,5 +497,46 @@ public class MainSellerActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.addProductBtn:
+                startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
+                break;
+            case R.id.editProfileBtn:
+                startActivity(new Intent(MainSellerActivity.this, ProfileEditSellerActivity.class));
+                break;
+            case R.id.reviewsDs:
+                Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
+                intent.putExtra("shopUid", firebaseAuth.getUid());
+                startActivity(intent);
+                break;
+            case R.id.promoCodeDs:
+                startActivity(new Intent(MainSellerActivity.this, PromotionCodesActivity.class));
+                break;
+            case R.id.settingsDs:
+                startActivity(new Intent(MainSellerActivity.this, SettingsActivity.class));
+                break;
+            case R.id.logoutBtn:
+                  //make offline
+//                //sign out
+//                //go to login activity
+                makeMeOffline();
+
+        }
+        return true;
+    }
+
+    //nav bar on back pressed
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

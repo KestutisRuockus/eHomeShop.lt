@@ -89,7 +89,9 @@
         android:minHeight="100dp"
         android:padding="10dp"
         android:layout_margin="20dp"
-        android:gravity="top"/>
+        android:gravity="top"
+        android:progressBackgroundTint="@color/colorPrimaryDark"
+        android:progressTint="@color/colorAccent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/submitBtn"

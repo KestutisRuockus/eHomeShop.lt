@@ -3,6 +3,7 @@ package cashbacklogin.lt.belekas.ehomeshoplt.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -11,11 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,13 +39,14 @@ import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterShop;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelOrderUser;
 import cashbacklogin.lt.belekas.ehomeshoplt.models.ModelShop;
 
-public class MainUserActivity extends AppCompatActivity {
+public class MainUserActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TextView nameTv, emailTv, phoneTv, tabShopTv, tabOrdersTv;
+    private TextView nameTv, emailTv, phoneTv, tabShopTv, tabOrdersTv, navNameTv, navPhoneTv, navEmailTv;
     private ImageButton logoutBtn, editProfileBtn, settingsBtn;
     private ImageView profileIv;
     private RelativeLayout shopsRl, ordersRl;
     private RecyclerView shopsRv, orderRv;
+    private Toolbar drawe_toolbaar_user;
 
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
@@ -50,6 +56,10 @@ public class MainUserActivity extends AppCompatActivity {
 
     private ArrayList<ModelOrderUser> ordersList;
     private AdapterOrderUser adapterOrderUser;
+
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mToggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +72,19 @@ public class MainUserActivity extends AppCompatActivity {
         profileIv = findViewById(R.id.profileIv);
         emailTv = findViewById(R.id.emailTv);
         phoneTv = findViewById(R.id.phoneTv);
-        tabShopTv = findViewById(R.id.tabShopTv);
+        tabShopTv = findViewById(R.id.tabShopsTv);
         tabOrdersTv = findViewById(R.id.tabOrdersTv);
         shopsRl = findViewById(R.id.shopsRl);
         ordersRl = findViewById(R.id.ordersRl);
         shopsRv = findViewById(R.id.shopsRv);
         orderRv = findViewById(R.id.orderRv);
         settingsBtn = findViewById(R.id.settingsBtn);
+
+        // nav bar
+        drawe_toolbaar_user = findViewById(R.id.drawe_toolbaar_user);
+        navNameTv = findViewById(R.id.navNameTv);
+        navPhoneTv = findViewById(R.id.navPhoneTv);
+        navEmailTv = findViewById(R.id.navEmailTv);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait...");
@@ -79,23 +95,23 @@ public class MainUserActivity extends AppCompatActivity {
         // at start show shops ui
         showShopsUI();
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // make offline
-                // sign out
-                // go to login activity
-                makeMeOffline();
-            }
-        });
-
-        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // open edit profile activity
-                startActivity(new Intent(MainUserActivity.this, ProfileEditUserActivity.class));
-            }
-        });
+//        logoutBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // make offline
+//                // sign out
+//                // go to login activity
+//                makeMeOffline();
+//            }
+//        });
+//
+//        editProfileBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // open edit profile activity
+//                startActivity(new Intent(MainUserActivity.this, ProfileEditUserActivity.class));
+//            }
+//        });
 
         tabShopTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,12 +129,26 @@ public class MainUserActivity extends AppCompatActivity {
             }
         });
 
-        settingsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
-            }
-        });
+//        settingsBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
+//            }
+//        });
+
+        /*Set support action bar*/
+        setSupportActionBar(drawe_toolbaar_user);
+        /*Navigation drawer */
+        drawerLayout = findViewById(R.id.drawer_activity_user);
+        navigationView = findViewById(R.id.nav_view);
+
+        navigationView.bringToFront();
+        mToggle = new ActionBarDrawerToggle(this, drawerLayout, drawe_toolbaar_user, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     private void showShopsUI() {
@@ -198,8 +228,17 @@ public class MainUserActivity extends AppCompatActivity {
                             emailTv.setText(email);
                             phoneTv.setText(phone);
 
+                            View headerView = navigationView.getHeaderView(0);
+                            TextView navName = (TextView) headerView.findViewById(R.id.navNameTv);
+                            navName.setText(name);
+                            TextView navPhone = (TextView) headerView.findViewById(R.id.navPhoneTv);
+                            navPhone.setText(phone);
+                            TextView navEmail = (TextView) headerView.findViewById(R.id.navEmailTv);
+                            navEmail.setText(email);
+                            ImageView navProfileImage = headerView.findViewById(R.id.navProfileIv);
+
                             try {
-                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_person_gray).into(profileIv);
+                                Picasso.get().load(profileImage).placeholder(R.drawable.ic_person_gray).into(navProfileImage);
                             }
                             catch (Exception e){
                                 profileIv.setImageResource(R.drawable.ic_person_gray);
@@ -305,5 +344,23 @@ public class MainUserActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.editProfileBtn:
+                startActivity(new Intent(MainUserActivity.this, ProfileEditUserActivity.class));
+                break;
+
+            case R.id.settingsBtn:
+                startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
+                break;
+
+            case R.id.logoutBtn:
+                makeMeOffline();
+                break;
+        }
+        return false;
     }
 }

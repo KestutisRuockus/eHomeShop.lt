@@ -9,7 +9,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
             android:id="@+id/orderIdTv"
@@ -23,7 +25,7 @@
             android:id="@+id/dateTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/nextIv"
+            android:layout_alignParentEnd="true"
             android:text="22/06/2020"/>
 
         <TextView
@@ -46,17 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/shopNameTv"
             android:layout_marginTop="5dp"
-            android:layout_toStartOf="@+id/nextIv"
+            android:layout_alignParentEnd="true"
             android:text="In progress"
             android:textColor="@color/colorGreen"/>
-
-        <ImageView
-            android:id="@+id/nextIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_next_gray"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"/>
 
     </RelativeLayout>
 

@@ -84,9 +84,9 @@ public class AdapterProductUser extends RecyclerView.Adapter<AdapterProductUser.
 
         }
         try {
-            Picasso.get().load(productIcon).placeholder(R.drawable.ic_baseline_add_shopping_primary).into(holder.productIconIv);
+            Picasso.get().load(productIcon).placeholder(R.drawable.no_photo).into(holder.productIconIv);
         } catch (Exception e){
-            holder.productIconIv.setImageResource(R.drawable.ic_baseline_add_shopping_primary);
+            holder.productIconIv.setImageResource(R.drawable.no_photo);
         }
 
         holder.addToCartTv.setOnClickListener(new View.OnClickListener() {

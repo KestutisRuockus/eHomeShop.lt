@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -135,7 +134,6 @@ public class AdapterOrderShop extends RecyclerView.Adapter<AdapterOrderShop.Hold
 
         // uid views of row_order_seller.xml
         private TextView orderIdTv, orderDateTv, emailTv, amountTv, statusTv;
-        private ImageView nextIv;
 
         public HolderOrderShop(@NonNull View itemView) {
             super(itemView);
@@ -146,7 +144,6 @@ public class AdapterOrderShop extends RecyclerView.Adapter<AdapterOrderShop.Hold
             emailTv = itemView.findViewById(R.id.emailTv);
             amountTv = itemView.findViewById(R.id.amountTv);
             statusTv = itemView.findViewById(R.id.statusTv);
-            nextIv = itemView.findViewById(R.id.nextIv);
         }
     }
 }

@@ -6,7 +6,6 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -119,7 +118,6 @@ public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.Hold
 
         // view of layout
         private TextView orderIdTv, dateTv, shopNameTv, amountTv, statusTv;
-        private ImageView nextIv;
 
         public HolderOrderUser(@NonNull View itemView) {
             super(itemView);
@@ -130,7 +128,6 @@ public class AdapterOrderUser extends RecyclerView.Adapter<AdapterOrderUser.Hold
             shopNameTv = itemView.findViewById(R.id.shopNameTv);
             amountTv = itemView.findViewById(R.id.amountTv);
             statusTv = itemView.findViewById(R.id.statusTv);
-            nextIv = itemView.findViewById(R.id.nextIv);
         }
     }
 }

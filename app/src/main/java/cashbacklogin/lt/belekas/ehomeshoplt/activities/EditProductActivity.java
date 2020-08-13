@@ -211,10 +211,10 @@ public class EditProductActivity extends AppCompatActivity {
                         discountedPriceEt.setText(discountPrice);
 
                         try {
-                            Picasso.get().load(productIcon).placeholder(R.drawable.ic_add_shopping_white).into(productIconIv);
+                            Picasso.get().load(productIcon).placeholder(R.drawable.no_photo).into(productIconIv);
                         }
                         catch (Exception e){
-                            productIconIv.setImageResource(R.drawable.ic_add_shopping_white);
+                            productIconIv.setImageResource(R.drawable.no_photo);
                         }
                     }
 

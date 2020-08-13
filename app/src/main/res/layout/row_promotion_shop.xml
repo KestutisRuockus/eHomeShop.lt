@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:background="@color/colorWhite"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="20dp">
 
         <ImageView
             android:id="@+id/iconIv"
@@ -85,14 +87,6 @@
             android:maxLines="2"
             android:textColor="@color/colorBlack"
             android:layout_below="@id/expireDateTv"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_next_gray"
-            android:tint="@color/colorPrimary"/>
 
     </RelativeLayout>
 

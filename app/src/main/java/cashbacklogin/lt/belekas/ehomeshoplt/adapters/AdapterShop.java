@@ -149,7 +149,7 @@ public class AdapterShop extends RecyclerView.Adapter<AdapterShop.HolderShop>{
     class HolderShop extends RecyclerView.ViewHolder{
 
         // ui views of row_shop.xml
-        private ImageView shopIv, onlineIv, nextIv;
+        private ImageView shopIv, onlineIv;
         private TextView shopClosedTv, shopNameTv, phoneTv, addressTv;
         private RatingBar ratingBar;
 
@@ -164,7 +164,6 @@ public class AdapterShop extends RecyclerView.Adapter<AdapterShop.HolderShop>{
             phoneTv = itemView.findViewById(R.id.phoneTv);
             addressTv = itemView.findViewById(R.id.addressTv);
             ratingBar = itemView.findViewById(R.id.ratingBar);
-            nextIv = itemView.findViewById(R.id.nextIv);
         }
     }
 }

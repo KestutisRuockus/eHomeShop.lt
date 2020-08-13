@@ -88,8 +88,9 @@
                 android:layout_below="@id/deliveryFeeTv"
                 android:layout_alignParentEnd="true"
                 android:numStars="5"
-                android:progressBackgroundTint="@color/colorGray00"
-                android:progressTint="@color/colorWhite"/>
+                android:rating="3"
+                android:progressBackgroundTint="@color/colorWhite"
+                android:progressTint="@color/colorAccent"/>
 
 
             <TextView
@@ -114,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:src="@drawable/ic_call_white" />
+                    android:src="@drawable/ic_call" />
 
                 <ImageButton
                     android:id="@+id/mapBtn"
@@ -144,8 +145,8 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:background="@null"
-            android:src="@drawable/ic_cart_gray"
-            android:layout_marginTop="8dp"/>
+            android:src="@drawable/ic_cart_white"
+            android:layout_marginTop="4dp"/>
 
         <ImageButton
             android:id="@+id/backBtn"
@@ -229,7 +230,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
             android:text="Show All"
-            android:textColor="@color/colorBlack" />
+            android:textColor="@color/colorBlack"/>
 
         <!--    Recycler: show products    -->
         <androidx.recyclerview.widget.RecyclerView

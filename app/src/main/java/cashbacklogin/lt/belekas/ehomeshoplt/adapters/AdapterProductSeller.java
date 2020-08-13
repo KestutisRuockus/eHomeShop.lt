@@ -90,9 +90,9 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
             holder.originalPriceTv.setPaintFlags(0);
         }
         try {
-            Picasso.get().load(icon).placeholder(R.drawable.ic_baseline_add_shopping_primary).into(holder.productsIv);
+            Picasso.get().load(icon).placeholder(R.drawable.no_photo).into(holder.productsIv);
         } catch (Exception e){
-            holder.productsIv.setImageResource(R.drawable.ic_baseline_add_shopping_primary);
+            holder.productsIv.setImageResource(R.drawable.no_photo);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -162,9 +162,9 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         }
 
         try {
-            Picasso.get().load(icon).placeholder(R.drawable.ic_baseline_add_shopping_primary).into(productIv);
+            Picasso.get().load(icon).placeholder(R.drawable.no_photo).into(productIv);
         } catch (Exception e){
-            productIv.setImageResource(R.drawable.ic_baseline_add_shopping_primary);
+            productIv.setImageResource(R.drawable.no_photo);
         }
 
         // show dialog
