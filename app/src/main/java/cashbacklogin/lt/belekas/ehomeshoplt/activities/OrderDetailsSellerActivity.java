@@ -119,7 +119,7 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // handle item clicks
+                        // handle row_chat clicks
                         String selectedOption = options[which];
                         editOrderStatus(selectedOption);
                     }
@@ -236,9 +236,6 @@ public class OrderDetailsSellerActivity extends AppCompatActivity {
     }
 
     private void loadOrderedItems(){
-
-        // load the products/items of order
-
 
         // init list
         orderedItemArrayList = new ArrayList<>();

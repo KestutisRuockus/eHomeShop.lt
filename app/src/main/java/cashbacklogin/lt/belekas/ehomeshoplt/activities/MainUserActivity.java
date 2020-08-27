@@ -353,6 +353,10 @@ public class MainUserActivity extends AppCompatActivity implements NavigationVie
                 startActivity(new Intent(MainUserActivity.this, ProfileEditUserActivity.class));
                 break;
 
+            case R.id.chatUser:
+                startActivity(new Intent(MainUserActivity.this, ChatDashboardActivity.class));
+                break;
+
             case R.id.settingsBtn:
                 startActivity(new Intent(MainUserActivity.this, SettingsActivity.class));
                 break;

@@ -332,7 +332,7 @@ public class ProfileEditUserActivity extends AppCompatActivity implements Locati
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // handle item clicks
+                        // handle row_chat clicks
                         if (which == 0){
                             // camera clicked
                             if (checkCameraPermission()){

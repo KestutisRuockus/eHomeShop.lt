@@ -147,34 +147,6 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
             }
         });
 
-//        logoutBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // make offline
-//                // sign out
-//                // go to login activity
-//                makeMeOffline();
-//
-//            }
-//        });
-//
-//        editProfileBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // open edit profile activity
-//                startActivity(new Intent(MainSellerActivity.this, ProfileEditSellerActivity.class));
-//            }
-//        });
-//
-//        addProductBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // open edit add product activity
-//                startActivity(new Intent(MainSellerActivity.this, AddProductActivity.class));
-//
-//            }
-//        });
-
         tabProductsTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,7 +173,7 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                // get selected item
+                                // get selected row_chat
                                 String selected = Constants.productCategories1[which];
                                 filteredProductsTv.setText(selected);
                                 if (selected.equals("All")){
@@ -228,7 +200,7 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                         .setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // handle item clicks
+                                // handle row_chat clicks
                                 if (which == 0){
                                     // All clicked
                                     filteredOrdersTv.setText("Show All Orders");
@@ -253,7 +225,7 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
         popupMenu.getMenu().add("Reviews");
         popupMenu.getMenu().add("Promotion Codes");
 
-        // handle menu item click
+        // handle menu row_chat click
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -276,15 +248,6 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                 return true;
             }
         });
-
-        // show more options:Settings, Review, Promotion Codes
-//        moreBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // show popup menu
-//                popupMenu.show();
-//            }
-//        });
     }
 
 
@@ -295,7 +258,7 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
         orderShopArrayList = new ArrayList<>();
 
         // load orders of shop
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
         ref.child(firebaseAuth.getUid()).child("Orders")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -314,7 +277,10 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
 
                         // set adapter to recyclerView
                         ordersRv.setAdapter(adapterOrderShop);
+                        System.out.println("path----------------------------- ;) " + ref);
+                        System.out.println("list------------------------------------------ " + orderShopArrayList);
                     }
+
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -364,7 +330,7 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
         productList = new ArrayList<>();
 
         // get all products
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.child(firebaseAuth.getUid()).child("Products")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -383,6 +349,9 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
 
                         // set adapter
                         productsRv.setAdapter(adapterProductSeller);
+
+                        System.out.println("path----------------------------- ;) " + reference);
+                        System.out.println("list------------------------------------------ " + productList);
                     }
 
                     @Override
@@ -513,6 +482,9 @@ public class MainSellerActivity extends AppCompatActivity implements NavigationV
                 Intent intent = new Intent(MainSellerActivity.this, ShopReviewsActivity.class);
                 intent.putExtra("shopUid", firebaseAuth.getUid());
                 startActivity(intent);
+                break;
+            case R.id.chatSeller:
+                startActivity(new Intent(MainSellerActivity.this, ChatDashboardActivity.class));
                 break;
             case R.id.promoCodeDs:
                 startActivity(new Intent(MainSellerActivity.this, PromotionCodesActivity.class));

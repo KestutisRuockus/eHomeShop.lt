@@ -87,7 +87,7 @@ public class PromotionCodesActivity extends AppCompatActivity {
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // handle item click
+                        // handle row_chat click
                         if (which == 0){
                             // all clicked
                             loadAllPromoCodes();
@@ -130,8 +130,7 @@ public class PromotionCodesActivity extends AppCompatActivity {
                             adapterPromotionShop = new AdapterPromotionShop(PromotionCodesActivity.this, promotionArrayList);
 
                             // set adapter to recyclerview
-                            promoRv
-                                    .setAdapter(adapterPromotionShop);
+                            promoRv.setAdapter(adapterPromotionShop);
                         }
 
                         @Override

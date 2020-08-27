@@ -56,7 +56,7 @@ public class AdapterCartItem extends RecyclerView.Adapter<AdapterCartItem.Holder
         holder.itemQuantityTv.setText("[" + quantity + "]"); // e. g. [3]
         holder.itemPriceEachTv.setText("" + price);
 
-        // handle remove clicks listener, delete item from cart
+        // handle remove clicks listener, delete row_chat from cart
         holder.itemRemoveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

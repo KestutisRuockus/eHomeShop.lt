@@ -405,7 +405,7 @@ public class EditProductActivity extends AppCompatActivity {
                 .setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // handle item clicks
+                        // handle row_chat clicks
                         if (which == 0) {
                             // camera clicked
                             if (checkCameraPermission()) {

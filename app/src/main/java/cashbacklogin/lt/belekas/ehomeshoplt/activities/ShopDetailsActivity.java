@@ -127,7 +127,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
         loadShopProducts();
         loadReviews(); // avg rating, set on rating bar
 
-        // declare ot to class level and init in onCreate
+        // declare to class level and init in onCreate
         easyDB = EasyDB.init(this, "ITEM_DB")
                 .setTableName("ITEMS_TABLE")
                 .addColumn(new Column("Item_id", new String[]{"text", "unique"}))
@@ -206,7 +206,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                // get selected item
+                                // get selected row_chat
                                 String selected = Constants.productCategories1[which];
                                 filteredProductsTv.setText(selected);
                                 if (selected.equals("All")){
@@ -269,7 +269,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
         // get cart count
         int count = easyDB.getAllData().getCount();
         if (count <= 0){
-            // no item in cart, hide cart count textview
+            // no row_chat in cart, hide cart count textview
             cartCountTv.setVisibility(View.GONE);
         }
         else {
@@ -284,6 +284,7 @@ public class ShopDetailsActivity extends AppCompatActivity {
     public TextView sTotalTv, dFeeTv, allTotalPriceTv, promoDescriptionTv, discountTv;
     public EditText promoCodeEt;
     public Button applyBtn;
+
     private void showCartDialog() {
         // init list
         cartItemList = new ArrayList<>();

@@ -163,7 +163,7 @@
             android:textColor="@color/colorWhite"
             android:textSize="20sp" />
 
-    <!--     car item count badge   -->
+    <!--     car row_chat count badge   -->
         <TextView
             android:id="@+id/cartCountTv"
             android:layout_width="20dp"

@@ -98,7 +98,7 @@ public class AdapterProductSeller extends RecyclerView.Adapter<AdapterProductSel
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // handle item clicks, show item details (in bottom sheet)
+                // handle row_chat clicks, show row_chat details (in bottom sheet)
                 detailsBottomSheet(modelProduct); // here modelProducts contains details of clicked products
             }
         });
