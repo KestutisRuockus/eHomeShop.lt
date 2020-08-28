@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -119,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Checking User....");
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("online", "true");
+        hashMap.put("onlineStatus", "online");
 
         // update value to db
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");

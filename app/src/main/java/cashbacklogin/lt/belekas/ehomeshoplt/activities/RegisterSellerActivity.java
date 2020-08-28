@@ -255,6 +255,8 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
             hashMap.put("online", "true");
             hashMap.put("shopOpen", "true");
             hashMap.put("profileImage", "");
+            hashMap.put("onlineStatus", "online");
+
 
             // save to db
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
@@ -316,6 +318,8 @@ public class RegisterSellerActivity extends AppCompatActivity implements Locatio
                                 hashMap.put("online", "true");
                                 hashMap.put("shopOpen", "true");
                                 hashMap.put("profileImage", "" + downloadImageUri); // url of uploaded image
+                                hashMap.put("onlineStatus", "online");
+                                hashMap.put("typingTo", "noOne");
 
                                 // save to db
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");

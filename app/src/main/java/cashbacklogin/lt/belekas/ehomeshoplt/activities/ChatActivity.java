@@ -2,7 +2,10 @@ package cashbacklogin.lt.belekas.ehomeshoplt.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,8 +32,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import cashbacklogin.lt.belekas.ehomeshoplt.R;
 import cashbacklogin.lt.belekas.ehomeshoplt.adapters.AdapterChat;
@@ -74,6 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         userStatusTv = findViewById(R.id.userStatusTv);
         messageEt = findViewById(R.id.messageEt);
         sendBtn = findViewById(R.id.sendBtn);
+        sendBtn = findViewById(R.id.sendBtn);
 
         //Layout (LinearLayout) for RecyclerView
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -92,17 +98,41 @@ public class ChatActivity extends AppCompatActivity {
         Query userQuery = usersDbRef.orderByChild("uid").equalTo(hisUid);
         //get user picture and name
         userQuery.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 //check until required info is received
                 for (DataSnapshot ds: snapshot.getChildren()){
+
                     //get data
                     String name = ""+ ds.child("name").getValue();
                     hisImage = "" +ds.child("profileImage").getValue();
+                    String typingStatus = "" +ds.child("typingTo").getValue();
+
+                    // check typing status
+                    if (typingStatus.equals(myUid)){
+                        userStatusTv.setText("Typing...");
+                    }
+                    else {
+                        // get value of online status
+                        String onlineStatus = ""+ ds.child("onlineStatus").getValue();
+                        if (onlineStatus.equals("online")){
+                            userStatusTv.setText("Online");
+                        }
+                        else {
+                            // convert timestamp to proper time date
+                            Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+                            calendar.setTimeInMillis(Long.parseLong(onlineStatus));
+                            String dateTime = DateFormat.format("dd/MM/yyyy hh:mm aa", calendar).toString();
+                            userStatusTv.setText("Last seen at: " + dateTime);
+                        }
+                    }
+
                     //set data
                     nameTv.setText(name);
                     try {
-                        //image received, set to imageview in toolbar
+                        //image received, set to image view in toolbar
                         Picasso.get().load(hisImage).placeholder(R.drawable.ic_face_white).into(profileIv);
                     } catch (Exception e){
                         //there is exetion getting picture, set default picture
@@ -114,6 +144,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
         //click button to send message
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +161,30 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // check edit text change listener
+        messageEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0){
+                    checkTypingStatus("noOne");
+                }
+                else {
+                    checkTypingStatus(hisUid); // uid of receiver
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         readMessages();
         seenMessage();
     }
@@ -152,6 +207,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
     private void readMessages() {
         chatList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child("Chats");
@@ -195,6 +251,27 @@ public class ChatActivity extends AppCompatActivity {
         //reset editText after sending message
         messageEt.setText("");
     }
+
+    private void checkOnlineStatus(String status){
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("onlineStatus", status);
+
+        // update value of online status of current user
+        ref.updateChildren(hashMap);
+    }
+
+    private void checkTypingStatus(String typing){
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("typingTo", typing);
+
+        // update value of online status of current user
+        ref.updateChildren(hashMap);
+    }
+
     private void checkUserStatus(){
         //get current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -212,13 +289,31 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         checkUserStatus();
+        // set online
+        checkOnlineStatus("online");
         super.onStart();
     }
     @Override
     protected void onPause() {
         super.onPause();
+
+        // get timestamp
+        String timestamp = String.valueOf(System.currentTimeMillis());
+
+        // set offline with last seen timestamp
+        checkOnlineStatus(timestamp);
+        checkTypingStatus("noOne");
         userRefForSeen.removeEventListener(seenListener);
     }
+
+    @Override
+    protected void onResume() {
+
+        // set online
+        checkOnlineStatus("online");
+        super.onResume();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.chat_menu_nav, menu);
